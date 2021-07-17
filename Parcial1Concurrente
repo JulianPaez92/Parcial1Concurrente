@@ -6,8 +6,8 @@ import time
 logging.basicConfig(format='%(asctime)s.%(msecs)03d [%(threadName)s] - %(message)s', datefmt='%H:%M:%S', level=logging.INFO)
 
 lock = threading.Lock()
-datos = 0
-leido = False
+datos = 0 #Variable global a modificar e imprimir por Procesador y Genereadores
+leido = False #
 cantGeneradores = 0
 
 class Procesador(threading.Thread):
@@ -17,14 +17,12 @@ class Procesador(threading.Thread):
 
     def run(self):
         global datos
-        global leido
         while True:
             time.sleep(0.5)
             lock.acquire()
             try:
                 logging.info(f'Se proceso el dato : {datos}')
-                if leido == False:
-                    leido = True
+
             finally:
                 lock.release()
                 time.sleep(random.randint(1,2))
@@ -63,3 +61,4 @@ for i in range(4):
     Generador(i).start()
 
 procesador.start()
+
